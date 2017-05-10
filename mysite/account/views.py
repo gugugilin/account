@@ -100,45 +100,43 @@ def myaccount(request):
 	print(request.user.username)
 	print(request.user.has_perm('account.can_account'))
 	datas = []
+	try:
+		if len(Account.objects.filter(author=request.user))==0:
+			return render(request,'Account_HTML/account.html',{'datas':[],'balance':0})
 
-	if len(Account.objects.filter(author=request.user))==0:
-		return render(request,'Account_HTML/account.html',{'datas':[],'balance':0})
+		if request.user.is_authenticated and request.user.has_perm('account.can_account'):
+			datas = Detail.objects.filter(author = request.user).order_by('-id')
+		else:
+			return render(request,'Account_HTML/account.html',{'datas':datas,'balance':0})
 
-	if request.user.is_authenticated and request.user.has_perm('account.can_account'):
-		datas = Detail.objects.filter(author = request.user).order_by('-id')
-	else:
-		return render(request,'Account_HTML/account.html',{'datas':datas,'balance':0})
+		user = Account.objects.get(author=request.user)
 
-	user = Account.objects.get(author=request.user)
-
-	if(request.POST.get('Enter')):
-		item = request.POST.get('item')
-		item_len = len(item)
-		if item_len>0 and item_len<50 and isfloat(request.POST.get('cost')):
-			temp = re.match("[a-zA-Z0-9]+",item)
-			if not(temp!=None and ((temp.span()[1] - temp.span()[0])==item_len)):
-				return render(request,'Account_HTML/account.html',{'datas':datas,'balance':user.balance})
-			try:
-				Detail.objects.create(author = request.user,item = request.POST.get('item'),cost = int(request.POST.get('cost')))		
-				user.balance -= float(request.POST.get('cost'))
-				user.save()
-			except Exception as e:
-				print(e)
-			balance = user.balance
-	elif(request.POST.get('DeleteAll')):
-		datas = Detail.objects.filter(author = request.user).order_by('-id')
-		datas.delete()
-		user.balance = 0
-		user.save()
-	elif(request.POST.get('Delete')):
-		print("Delete item")
-		detail_item = Detail.objects.get(id = request.POST.get('myid'))
-		user.balance += float(detail_item.cost)
-		user.save()
-		detail_item.delete()
-	else:
-		print("Error")
-
+		if(request.POST.get('Enter')):
+			item = request.POST.get('item')
+			item_len = len(item)
+			if item_len>0 and item_len<50 and isfloat(request.POST.get('cost')):
+				temp = re.match("[a-zA-Z0-9]+",item)
+				if not(temp!=None and ((temp.span()[1] - temp.span()[0])==item_len)):
+					return render(request,'Account_HTML/account.html',{'datas':datas,'balance':user.balance})
+					Detail.objects.create(author = request.user,item = request.POST.get('item'),cost = int(request.POST.get('cost')))		
+					user.balance -= float(request.POST.get('cost'))
+					user.save()
+				balance = user.balance
+		elif(request.POST.get('DeleteAll')):
+			datas = Detail.objects.filter(author = request.user).order_by('-id')
+			datas.delete()
+			user.balance = 0
+			user.save()
+		elif(request.POST.get('Delete')):
+			print("Delete item")
+			detail_item = Detail.objects.get(id = request.POST.get('myid'))
+			user.balance += float(detail_item.cost)
+			user.save()
+			detail_item.delete()
+		else:
+			print("Error")
+	except Exception as e:
+		print(e)
 	balance = user.balance
 	return render(request,'Account_HTML/account.html',{'datas':datas,'balance':balance,'username':user.author.username})
 
@@ -146,8 +144,11 @@ def myaccount(request):
 def login_pass(request):
 	uname = request.POST.get('uname')
 	psw = request.POST.get('psw')
-	user = auth.authenticate(username=uname, password=psw)
-	print("test: ",uname)
+	try:
+            user = auth.authenticate(username=uname, password=psw)
+            print("test: ",uname)
+        except:
+            user=None
 	if user is not None and user.is_active:
 		auth.login(request,user)
 		return render(request,'Account_HTML/pass.html',{})
