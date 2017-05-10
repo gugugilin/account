@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 class Detail(models.Model):
     author = models.ForeignKey(User)
     item = models.TextField()
-    cost = models.IntegerField(default=0)
+    cost = models.FloatField(default=0)
     date = models.DateTimeField(default=timezone.now)
     class Meta:
         ordering = ['date']

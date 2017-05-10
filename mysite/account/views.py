@@ -62,7 +62,7 @@ def SecurityCheck(name,password1,password2):
 def isfloat(str):
     try: 
         float(str)
-    except ValueError: 
+    except: 
         return False
     return True
 
@@ -101,6 +101,9 @@ def myaccount(request):
 	print(request.user.has_perm('account.can_account'))
 	datas = []
 
+	if len(Account.objects.filter(author=request.user))==0:
+		return render(request,'Account_HTML/account.html',{'datas':[],'balance':0})
+
 	if request.user.is_authenticated and request.user.has_perm('account.can_account'):
 		datas = Detail.objects.filter(author = request.user).order_by('-id')
 	else:
@@ -109,11 +112,18 @@ def myaccount(request):
 	user = Account.objects.get(author=request.user)
 
 	if(request.POST.get('Enter')):
-		item_len = len(request.POST.get('item'))
-		if item_len>0 and item_len<100 and isfloat(request.POST.get('cost')):
-			Detail.objects.create(author = request.user,item = request.POST.get('item'),cost = int(request.POST.get('cost')))		
-			user.balance -= float(request.POST.get('cost'))
-			user.save()
+		item = request.POST.get('item')
+		item_len = len(item)
+		if item_len>0 and item_len<50 and isfloat(request.POST.get('cost')):
+			temp = re.match("[a-zA-Z0-9]+",item)
+			if not(temp!=None and ((temp.span()[1] - temp.span()[0])==item_len)):
+				return render(request,'Account_HTML/account.html',{'datas':datas,'balance':user.balance})
+			try:
+				Detail.objects.create(author = request.user,item = request.POST.get('item'),cost = int(request.POST.get('cost')))		
+				user.balance -= float(request.POST.get('cost'))
+				user.save()
+			except Exception as e:
+				print(e)
 			balance = user.balance
 	elif(request.POST.get('DeleteAll')):
 		datas = Detail.objects.filter(author = request.user).order_by('-id')
