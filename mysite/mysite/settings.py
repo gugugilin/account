@@ -25,7 +25,7 @@ SECRET_KEY = 'f*f_0z-l6uw_zc0c8*ob!y@^-%@+njw)j*jtok6ohb^^)mry3m'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['tansita.pythonanywhere.com',]
 
 
 # Application definition
