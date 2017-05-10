@@ -135,9 +135,9 @@ def myaccount(request):
 			detail_item.delete()
 		else:
 			print("Error")
+	balance = user.balance
 	except Exception as e:
 		print(e)
-	balance = user.balance
 	return render(request,'Account_HTML/account.html',{'datas':datas,'balance':balance,'username':user.author.username})
 
 @csrf_exempt #繞過防護機制
