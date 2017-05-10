@@ -136,10 +136,10 @@ def myaccount(request):
 		else:
 			print("Error")
 		balance = user.balance
+		return render(request,'Account_HTML/account.html',{'datas':datas,'balance':balance,'username':user.author.username})
 	except Exception as e:
 		print(e)
 		return render(request,'Account_HTML/account.html',{'datas':[],'balance':0,'username':'haha'})
-	return render(request,'Account_HTML/account.html',{'datas':datas,'balance':balance,'username':user.author.username})
 
 @csrf_exempt #繞過防護機制
 def login_pass(request):
