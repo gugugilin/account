@@ -145,10 +145,10 @@ def login_pass(request):
 	uname = request.POST.get('uname')
 	psw = request.POST.get('psw')
 	try:
-            user = auth.authenticate(username=uname, password=psw)
-            print("test: ",uname)
-        except:
-            user=None
+		user = auth.authenticate(username=uname, password=psw)
+		print("test: ",uname)
+	except:
+		user=None
 	if user is not None and user.is_active:
 		auth.login(request,user)
 		return render(request,'Account_HTML/pass.html',{})
