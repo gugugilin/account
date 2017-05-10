@@ -135,7 +135,7 @@ def myaccount(request):
 			detail_item.delete()
 		else:
 			print("Error")
-	balance = user.balance
+		balance = user.balance
 	except Exception as e:
 		print(e)
 	return render(request,'Account_HTML/account.html',{'datas':datas,'balance':balance,'username':user.author.username})
