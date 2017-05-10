@@ -118,9 +118,9 @@ def myaccount(request):
 				temp = re.match("[a-zA-Z0-9]+",item)
 				if not(temp!=None and ((temp.span()[1] - temp.span()[0])==item_len)):
 					return render(request,'Account_HTML/account.html',{'datas':datas,'balance':user.balance})
-					Detail.objects.create(author = request.user,item = request.POST.get('item'),cost = int(request.POST.get('cost')))		
-					user.balance -= float(request.POST.get('cost'))
-					user.save()
+				Detail.objects.create(author = request.user,item = request.POST.get('item'),cost = int(request.POST.get('cost')))	
+				user.balance -= float(request.POST.get('cost'))
+				user.save()
 				balance = user.balance
 		elif(request.POST.get('DeleteAll')):
 			datas = Detail.objects.filter(author = request.user).order_by('-id')
