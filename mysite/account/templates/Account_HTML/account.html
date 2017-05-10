@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf8">
+ 	<link rel="shortcut icon" href="http://goo.gl/5juxpX">
+
+	 <!-- Practice css --> 
+	<style>
+
+		.mycss 
+		{
+			background-color:#FFD306;
+			color:black;
+			border:1px #000000 solid;
+			width:100px;
+			height:50px;
+			font-size:15px;
+			font-weight: bold;
+		}
+
+		.wordcss
+		{
+			color:#f75000;
+			font-size:25px;
+			font-weight: bold;
+		}
+
+		.bluecss
+		{
+			background-color:#00ffff;
+			color:black;
+			border:1px #000000 solid;
+			width:100px;
+			height:50px;
+			font-size:15px;
+			font-weight: bold;
+		}
+
+		.blackcss
+		{
+			background-color:#000000;
+			color:white;
+			border:1px #000000 solid;
+			width:100px;
+			height:50px;
+			font-size:15px;
+			font-weight: bold;
+		}
+
+		.depositcss
+		{
+			background-color:#FF5809;
+			color:yellow;
+			border:1px #000000 solid;
+			width:150px;
+			height:50px;
+			font-size:15px;
+			font-weight: bold;
+		}
+
+
+	</style>
+
+	<title>
+		
+		My account :D
+
+	</title>
+</head>
+<body onload="rightnow()" background="http://goo.gl/xcujqr">
+	
+	<form id = 'MainForm' action='' method='POST' >
+	<center>
+	<font color="red" size="7px"> {{username}} der賬單 </font> <br>
+
+	<font color='#80FFFF' size='5'> v3.28 精裝版 (C) 2017 written by Tom</font><br>
+	
+	<hr size = 2 color = #ADADAD>
+
+
+	<font class="wordcss"> Item: </font>
+	<input type='text' id = 'item' name='item' size='15'>
+
+	<font class="wordcss"> Cost: </font>
+	<input type='text' id = 'cost' name='cost' size='15'>
+
+	<br><br>
+	
+	<input type="submit" name="Enter" value="Enter" id="Enter" onclick="location.reload()" class="bluecss" autofocus/>
+
+	<input type="submit" name="DeleteAll" value="DeleteAll" onclick="location.reload()" class="bluecss"/>
+	</center>
+	</form>
+
+	<br><br><br>
+
+	<font color="yellow" size="6px"> Balance: {{balance}} </font> <br><br>
+
+	<table border="3" >
+	<tr>
+		<th><font color="#80FFFF" size="5px">Item</font></th>
+		<th><font color="#80FFFF" size="5px">Cost</font></th>
+		<th><font color="#80FFFF" size="5px">Date</font></th>
+		<th><font color="#80FFFF" size="5px">Delete</font></th>
+	</tr>
+
+	{%for data in datas%}
+	<tr>
+		<td><font color="white" size="5px"> {{data.item}} </font></td>
+		<td><font color="white" size="5px"> {{data.cost}} </font></td>
+		<td><font color="white" size="5px"> {{data.date}} </font></td>
+		<form id = 'form1' action='' method='POST' >
+			<input type='hidden' name='myid' value={{data.id}} size='15'>
+			<td><center><input type="image" name="Delete" value="delete" src="http://i.imgur.com/xUYgurd.png" width="30" height="30" onclick="document.form1.submit();"></center></td>
+		</form>
+	</tr>
+	{%endfor%}
+	</table>
+
+
+</body>
+</html>

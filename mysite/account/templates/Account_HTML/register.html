@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>
+		Register
+	</title>
+</head>
+    <body>
+        <h1>註冊新帳號</h1>
+    
+        <form action="" method="post">
+			
+			<tr><th><label for="id_username">Username:</label></th><td><input type="text" name="username" maxlength="150" id="id_username" autofocus required /><br /><span class="helptext">Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only.</span></td></tr>
+			<tr><th><label for="id_password1">Password:</label></th><td><input type="password" name="password1" id="id_password1" required /><br /><span class="helptext"><ul><li>Your password can&#39;t be too similar to your other personal information.</li><li>Your password must contain at least 8 characters.</li><li>Your password can&#39;t be a commonly used password.</li><li>Your password can&#39;t be entirely numeric.</li></ul></span></td></tr>
+			<tr><th><label for="id_password2">Password confirmation:</label></th><td><input type="password" name="password2" id="id_password2" required /><br /><span class="helptext">Enter the same password as before, for verification.</span></td></tr>
+			
+            <input type="submit" value="註冊">
+        </form>
+    </body>
+</html>
